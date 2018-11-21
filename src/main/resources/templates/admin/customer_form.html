@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/layout :: head"></head>
+<body>
+
+<div id="wrapper">
+
+	<nav th:replace="admin/layout :: sidebar"></nav>
+
+	<div id="page-wrapper">
+	    <div class="row">
+	        <div class="col-sm-12">
+	            <h3 class="page-header">Quản lý khách hàng</h3>
+	        </div>
+	        <!-- /.col-sm-12 -->
+	    </div>
+	    <!-- /.row -->
+	
+	    <div class="row">
+	        <div class="col-xs-12 col-sm-9 col-md-6 col-lg-6 col-sm-offset-1 col-md-offset-3 col-lg-offset-3">
+	            <div class="panel panel-primary">
+	                <div class="panel-heading">
+	                    Form khách hàng
+	                </div>
+	                <!-- /.panel-heading -->
+	                <div class="panel-body">
+	                     <form action="#" th:action="@{/admin/customer/save}" th:object="${customer}" method="POST">
+                            <input type="hidden" th:field="*{id}" />
+                            
+	                        <div class="form-group">
+	                            <label>Tên khách hàng <span class="required">*</span></label>
+	                            <input type="text" class="form-control"  id="name"  th:field="*{name}" th:errorclass="field-error" />
+	                             <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></span>
+	                        </div>
+	                        
+	                         <div class="form-group">
+	                            <label>Số điện thoại <span class="required">*</span></label>
+	                            <input type="text" class="form-control"  id="phone"  th:field="*{phone}" th:errorclass="field-error" /> 
+	                             <span th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="error"></span>
+	                        </div>
+	                        
+	                         <div class="form-group">
+	                            <label>Địa chỉ <span class="required">*</span></label>
+	                            <input type="text" class="form-control" id="address"  th:field="*{address}" th:errorclass="field-error" />
+	                             <span th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="error"></span>
+	                        </div>
+	                        
+	                         <div class="form-group">
+	                            <label>Phân loại <span class="required">*</span></label>
+	                            <select class="form-control" th:field="*{customerType}">
+								    <option th:each="customerType : ${T(com.suristore.shop.utils.CustomerType).values()}" 
+								            th:value="${customerType}"
+								            th:text="${customerType.value}">
+								    </option>
+								</select>
+	                        </div>
+	                        
+	                        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Lưu</button>
+	                    </form>
+	                </div>
+	                <!-- /.panel-body -->
+	            </div>
+	            <!-- /.panel -->
+	        </div>
+	        <!-- /.col-sm-12 -->
+	    </div>
+	    <!-- /.row -->
+	</div>
+	<!-- /#page-wrapper -->
+
+</div>
+
+<script>
+
+</script>
+
+</body>
+</html>

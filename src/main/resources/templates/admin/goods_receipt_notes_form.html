@@ -1,0 +1,372 @@
+ <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/layout :: head">
+
+<style>
+/* Style the input field */
+#myInput {
+	padding: 20px;
+	margin-top: -6px;
+	border: 0;
+	border-radius: 0;
+	background: #f1f1f1;
+}
+</style>
+
+</head>
+
+<body>
+
+	<div id="wrapper">
+
+		<nav th:replace="admin/layout :: sidebar"></nav>
+
+		<div id="page-wrapper">
+			<div class="row">
+				<div class="col-sm-12">
+					<h3 class="page-header">Quản lý nhập hàng</h3>
+				</div>
+				<!-- /.col-sm-12 -->
+			</div>
+			<!-- /.row -->
+
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="panel panel-primary">
+						<div class="panel-heading">Form nhập hàng</div>
+						<!-- /.panel-heading -->
+						<div class="panel-body">
+							<form id= "formOrder">
+								<div class="form-group">
+
+									<div class="dropdown">
+										<button class="btn btn-primary dropdown-toggle" type="button"
+											data-toggle="dropdown">
+											Tìm người bán <span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" id="dropdown-menu-customer"
+											style="max-height: 400px; overflow: auto;">
+											<input class="form-control" id="myInputSearchCustomer" type="text"
+												placeholder="Tìm theo tên, sđt khách hàng...">
+											<li class="item-dropdown"
+												th:each="customer,iter : ${customers}"
+												th:attr="data-value=${customer}" style="padding: 10px; cursor:pointer">
+												<span th:text="${customer.name} +' - '+ ${customer.phone} +' - '+ ${customer.address}" th:remove="tag"></span>
+											</li>
+
+										</ul>
+
+									</div>
+
+								</div>
+
+								<div class="row">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<input
+												type="hidden" class="form-control" id="idCustomer" style="color: green;"/> 
+												
+											<label>Họ tên<span class="required">*</span></label> 
+											<input readonly
+												type="text" class="form-control" id="nameCustomer" style="color: green;"/> 
+												
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label>Số điện thoại<span class="required">*</span></label> <input   readonly
+												type="text" class="form-control"  id="phoneCustomer" style="color: green;"/>
+												
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label>Địa chỉ <span class="required">*</span></label>
+											<textarea  style="color: green;" readonly
+												id="addressCustomer" class="form-control" rows="2"></textarea>
+											
+										</div>
+									</div>
+									<div class="col-sm-6 ">
+										<div class="form-group">
+											<label>Ghi chú </label>
+											<textarea
+												id="noteCustomer" class="form-control" rows="2"></textarea>
+											
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-lg-12">
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												<i class="fa fa-bell fa-fw"></i> Nhập hàng
+											</div>
+											<!-- /.panel-heading -->
+											<div class="panel-body">
+
+												<div class="form-group">
+
+													<div class="dropdown">
+														<button class="btn btn-primary dropdown-toggle"
+															type="button" data-toggle="dropdown">
+															Thêm sản phẩm <span class="caret"></span>
+														</button>
+														<ul class="dropdown-menu" id="dropdown-menu-product"
+															style="max-height: 400px; overflow: auto;">
+															<input class="form-control" id="myInputSearch"
+																type="text" placeholder="Tìm tên sản phẩm...">
+															<li class="item-dropdown"
+																th:each="product,iter : ${products}"
+																th:attr="data-value=${product}" style="padding: 10px;cursor: pointer;">
+																<span th:text="${product.name}" th:remove="tag"></span>
+															</li>
+
+														</ul>
+
+													</div>
+
+												</div>
+												
+												<div class="row">
+													<div class="col-xs-12 col-sm-6 col-md-4 col-lg-2">
+														<div class="form-group">
+															<input
+																type="hidden" class="form-control" id="idProduct" style="color: green;"/> 
+																
+															<label>Sản phẩm<span class="required">*</span></label> 
+															<input readonly
+																type="text" class="form-control" id="nameProduct"  style="color: red;"/> 
+																
+														</div>
+													</div>
+													<div class="col-xs-12 col-sm-6 col-md-4 col-lg-2">
+														<div class="form-group">
+															<label>Loại<span class="required">*</span></label> <input   readonly	
+																type="text" class="form-control"  id="typeProduct" />
+																
+														</div>
+													</div>
+													
+													<div class="col-xs-12 col-sm-6 col-md-4 col-lg-2">
+														<div class="form-group">
+															<label>Danh mục<span class="required">*</span></label> <input   readonly
+																type="text" class="form-control"  id="categoryProduct"/>
+																
+														</div>
+													</div>
+													
+													<div class="col-xs-12 col-sm-6 col-md-4 col-lg-2">
+														<div class="form-group">
+															<label>Giá nhập<span class="required">*</span></label> <input  value="0" step="1" pattern="\d+" min="0" max="1000000000" placeholder="0"
+																type="number" class="form-control"  id="priceProduct"/>
+																
+														</div>
+													</div>
+													
+													<div class="col-xs-12 col-sm-6 col-md-4 col-lg-2">
+														<div class="form-group">
+															<label>Số lượng<span class="required">*</span></label> <input  value="0" step="1" pattern="\d+" min="0" max="1000000000" placeholder="0"
+																type="number" class="form-control"  id="slProduct" />
+																
+														</div>
+													</div>
+													
+													<div class="col-xs-12 col-sm-6 col-md-4 col-lg-2">
+														<div class="form-group">
+															<label>Thành tiền<span class="required">*</span></label> <input readonly
+																type="text" class="form-control"  id="totalPriceProduct" th:attr="data-value=0" value="0"/>
+																
+														</div>
+													</div>
+													
+												</div>
+
+											</div>
+											<!-- /.panel-body -->
+										</div>
+										<!-- /.panel -->
+									</div>
+									<!-- /.col-lg-8 -->
+								</div>
+
+								<button type="submit" class="btn btn-primary" id="submitOrder">
+									<i class="fa fa-save"></i> Lưu
+								</button>
+							</form>
+						</div>
+						<!-- /.panel-body -->
+					</div>
+					<!-- /.panel -->
+				</div>
+				<!-- /.col-sm-12 -->
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- /#page-wrapper -->
+
+	</div>
+	
+	<script th:inline="javascript" type="text/javascript">
+		
+		  $(document).ready(function(){
+			  
+			  // tim kiếm sản phẩm button
+			  $("#myInputSearch").on("keyup",function() {
+					let value = $(this).val().toLowerCase();
+					
+					$("#dropdown-menu-product li").filter(function() {
+						$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)});
+						});
+			 
+		
+			 // drop down danh sách sản phẩm
+			  $("#dropdown-menu-product li").click(function() {
+				  	let data = $(this).attr("data-value");
+				  	console.log(data);
+					let item = JSON.parse(data);
+					
+					$("#idProduct").val(item.id);
+					$("#nameProduct").val(item.name);
+					$("#typeProduct").val(item.type.name);
+					$("#categoryProduct").val(item.category.name);
+					
+				});
+			 
+
+			 //format money
+			  $("#totalPriceProduct").val(parseFloat($("#totalPriceProduct").attr("data-value")).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})); 
+
+			  // thay doi so luong
+			  $("#slProduct").on("change",function() {
+				  let soluong = parseInt($(this).val());
+				  $(this).val(soluong);
+				  
+				  let gia = parseInt($("#priceProduct").val());
+
+				  $("#totalPriceProduct").attr("data-value",gia*soluong);
+				  $("#totalPriceProduct").val(parseFloat($("#totalPriceProduct").attr("data-value")).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})); 
+			  });
+
+			  // thay doi gia san pham
+			  $("#priceProduct").on("change",function() {
+				  let gia = parseInt($(this).val());
+				  $(this).val(gia);
+				  
+				  let soluong = parseInt($("#slProduct").val());
+				  
+				  $("#totalPriceProduct").attr("data-value",gia*soluong);
+				  $("#totalPriceProduct").val(parseFloat($("#totalPriceProduct").attr("data-value")).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})); 
+			  });
+
+			  ///////////////////////// customers
+			  
+			  // tìm kiếm tên khách hàng
+			  $("#myInputSearchCustomer").on("keyup",function() {
+					let value = $(this).val().toLowerCase();
+					$("#dropdown-menu-customer li").filter(function() {
+						$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)});
+			  });
+			  
+			  // click dropdown khách hàng
+			  $("#dropdown-menu-customer li").click(function() {
+
+					let item = JSON.parse($(this).attr("data-value"));
+					//console.log(item);
+
+					$('#idCustomer').val(item.Customer.id);
+					$('#nameCustomer').val(item.Customer.name);
+					$('#phoneCustomer').val(item.Customer.phone);
+					$('#addressCustomer').val(item.Customer.address);
+					
+				});  
+		  });
+		
+		  // valid input số lượng
+		  function validInputSoLuong(){
+			  $(".inputSl").on("keypress keyup",function (event) {    
+		           $(this).val($(this).val().replace(/[^\d].+/, ""));
+		            if ((event.which < 48 || event.which > 57)) {
+		                event.preventDefault();
+		            }
+		        });
+		  }
+		  
+		  //backspace for input
+		  $('.inputSl').keydown(function(e) {
+			    if ((e.which == 8 || e.which == 46) && $(this).val() =='') {
+			        $(this).prev('input').focus();
+			    }
+			}); 
+		  
+
+		 $("#formOrder").submit(function (event) {
+
+		        //stop submit the form, we will post it manually.
+		        event.preventDefault();
+
+		        saveOrder();
+
+		    });
+
+		  function saveOrder() {
+
+			  if( $("#idCustomer").val() && $("#nameCustomer").val() && $("#phoneCustomer").val() && $("#addressCustomer").val()){
+				  
+				  if( $("#idProduct").val() && $("#nameProduct").val() ){
+					  
+					  if( $("#priceProduct").val() && $("#priceProduct").val() >= 0){
+						  
+						  if( $("#slProduct").val() && $("#slProduct").val() > 0){
+							  
+							
+							  let data={
+									    id_customer:$("#idCustomer").val(),
+										note : $("#noteCustomer").val(),
+										id_product:$("#idProduct").val(),
+										quantity:$("#slProduct").val(),
+										price:$("#priceProduct").val() 
+										
+							  		};
+							  $.ajax({
+									type : "POST",
+									contentType : "application/json",
+									url : "/admin/goods_receipt_note/save",
+									data :JSON.stringify(data),
+									timeout : 100000,
+									success : function(data) {
+										console.log("SUCCESS: ", data);
+										document.location.href="/admin/goods_receipt_note/add";
+									},
+									 error: function(xhr, status, error) {
+										 console.log("ERROR: ", error);
+										 alert("Lỗi " + error);
+										 }
+							 }); 
+							  
+						  }else{
+							  alert("Hãy điền số lượng sản phẩm !");   
+						  }
+						  
+					  }else{
+						  alert("Hãy điền giá sản phẩm !");  
+					  }
+					  
+				  }else{
+					  alert("Hãy điền thông tin sản phẩm !");
+				  }
+			  } else{
+				  alert("Hãy điền thông tin khách hàng !");
+			  }
+		  }
+			 
+		  
+	</script>
+
+</body>
+
+</html>

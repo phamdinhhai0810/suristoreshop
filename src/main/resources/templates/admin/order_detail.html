@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/layout :: head"></head>
+<body>
+
+<div id="wrapper">
+
+	<nav th:replace="admin/layout :: sidebar"></nav>
+
+	<div id="page-wrapper">
+	    <div class="row">
+	        <div class="col-sm-12">
+	            <h3 class="page-header">Quản lý đơn hàng</h3>
+	        </div>
+	        <!-- /.col-sm-12 -->
+	    </div>
+	    <!-- /.row -->
+	
+	    <div class="row">
+	        <div class="col-sm-12">
+	            <div class="panel panel-primary">
+	                <div class="panel-heading">
+	                    Thông tin đơn hàng
+	                </div>
+	                <!-- /.panel-heading -->
+	                <div class="panel-body">
+	                    <div>
+	                        <!-- Nav tabs -->
+	                        <ul class="nav nav-tabs">
+	                            <li class="active"><a href="#cart" role="tab" data-toggle="tab">Sản phẩm</a></li>
+	                            <li><a href="#detail" data-toggle="tab">Thông tin khách hàng</a></li>
+	                        </ul>
+	
+	                      <!-- Tab panes -->
+	                      <div class="tab-content">
+	                        <div class="tab-pane active" id="cart">
+	                            <table class="table table-bordered table-hover" id="dataTables"  th:attr="data-value= ${order}" >
+	                                <tr>
+	                                	<th width="10%">STT</th>
+	                                    <th width="50%">Sản phẩm</th>
+	                                    <th width="15%" class="text-center">Giá bán (VNĐ)</th>
+	                                    <th width="10%" class="text-center">Số lượng</th>
+	                                    <th width="15%" class="text-center">Thành tiền (VNĐ)</th>
+	                                </tr>
+	                                <tr th:each="item,inter : ${order.itemOrder}">
+	                                	<td th:text="${inter.count}"></td>
+	                                    <td style="text-align:left;">
+	                                        <img th:src="@{/upload/{url}(url=${item.product.image})}" width="50px" height="50px" />
+	                                        <span th:text="${item.product.name}" style="margin-left:20px"></span>
+	                                    </td>
+	                               
+	                                     <td class="money" th:attr="data-value=${item.soldPrice}" th:text="${item.soldPrice}"></td>
+	                                    <td th:text="${item.quantity}"></td>
+	                                  
+	                                     <td class="money" th:attr="data-value=${item.soldPrice * item.quantity}" th:text="${item.soldPrice * item.quantity}"></td>
+	                                </tr>
+	                                <tr>
+	                                    <td colspan="4" style="text-align:right;"><strong>Tổng tiền</strong></td>
+	                                     <td><strong class="money" th:attr="data-value=${order.totalPrice}" th:text="${order.totalPrice}"></strong></td>
+	                                </tr>
+	                            </table>
+	                        </div>
+	                        <div class="tab-pane" id="detail">
+	                            <table class="table table-bordered table-hover">
+	                            	<tr>
+	                                    <td width="30%"><strong>Họ tên</strong></td>
+	                                    <td width="70%" th:text="${order.customer.name}"></td>
+	                                </tr>
+	                                <tr>
+	                                    <td><strong>Số điện thoại</strong></td>
+	                                    <td th:text="${order.customer.phone}"></td>
+	                                </tr>
+	                                <tr>
+	                                    <td><strong>Địa chỉ</strong></td>
+	                                   	<td th:text="${order.customer.address}"></td>
+	                                </tr>
+	                                <tr>
+	                                    <td><strong>Ghi chú</strong></td>
+	                                    <td th:text="${order.note}"></td>
+	                                </tr>
+	                            </table>
+	                        </div>
+	                      </div>
+	
+	                    </div>
+	                </div>
+	                <!-- /.panel-body -->
+	            </div>
+	            <!-- /.panel -->
+	        </div>
+	        <!-- /.col-sm-12 -->
+	    </div>
+	    <!-- /.row -->
+	</div>
+	<!-- /#page-wrapper -->
+
+</div>
+
+<script th:inline="javascript" type="text/javascript">
+/*<![CDATA[*/
+<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+ $(document).ready(function() {
+     
+     $('#dataTables').on( 'draw.dt', function () {
+    	 $(".money").each(function() {
+        	 $(this).html(parseFloat($(this).attr("data-value")).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})); 
+        })
+    	} );
+     
+     $(".money").each(function() {
+    	 $(this).html(parseFloat($(this).attr("data-value")).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})); 
+    })
+ });
+/*]]>*/
+</script>
+
+</body>
+</html>

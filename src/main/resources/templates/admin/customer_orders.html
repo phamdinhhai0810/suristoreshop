@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/layout :: head"></head>
+<body>
+
+<div id="wrapper">
+
+	<nav th:replace="admin/layout :: sidebar"></nav>
+
+	<div id="page-wrapper">
+	    <div class="row">
+	        <div class="col-sm-12">
+	            <h3 class="page-header">Quản lý khách hàng</h3>
+	        </div>
+	        <!-- /.col-sm-12 -->
+	    </div>
+	    <!-- /.row -->
+	
+	    <div class="row">
+	        <div class="col-sm-12">
+	            <div class="panel panel-primary">
+	                <div class="panel-heading">
+	                	 Lịch sử mua hàng của <strong th:text="${customer.name}"></strong>
+	                </div>
+	                <!-- /.panel-heading -->
+	                <div class="panel-body">
+	                	<h4 th:if="${#lists.isEmpty(orders)}">Khách hàng này chưa có đơn hàng nào</h4>
+	                    <table th:unless="${#lists.isEmpty(orders)}"
+	                    	class="table table-striped table-bordered" id="dataTables-example">
+	                        <thead>
+	                            <tr>
+	                                <th>STT</th>
+                                    <th>Ngày đặt</th>
+                                    <th>Tổng giá trị</th>
+                                    <th>Tùy chọn</th>
+	                            </tr>
+	                        </thead>
+	                        <tbody>
+	                            <tr th:each="order,inter : ${orders}">
+	                                <td th:text="${inter.count}"></td>
+	                              	<td th:text="${#dates.format(order.createdAt, 'dd/MM/yyyy HH:mm')}"></td>
+	                                <td class="money" th:attr="data-value=${order.totalPrice}" th:text="${order.totalPrice}"></td>
+	                                <td>
+	                                    <div class="dropdown">
+	                                        <button class="btn btn-danger btn-sm dropdown-toggle" data-toggle="dropdown">
+	                                            Tùy chọn
+	                                            <span class="caret"></span>
+	                                        </button>
+	                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+	                                            <li>
+	                                            	<a th:href="@{/admin/order/{id}(id=${order.id})}">
+	                                            		Xem đơn hàng
+	                                            	</a>
+	                                            </li>
+	                                            <li>
+	                                            	<a th:href="@{/admin/order/{id}/delete(id=${order.id})}"
+	                                            		th:attr="onclick='return confirm(\'Bạn có đồng ý xóa đơn hàng này không?\');'">
+	                                            		Xóa đơn hàng
+	                                            	</a>
+	                                            </li>
+	                                        </ul>
+	                                    </div>
+	                                </td>
+	                            </tr>
+	                        </tbody>
+	                    </table>
+	                    <!-- /.table-responsive -->
+	                </div>
+	                <!-- /.panel-body -->
+	            </div>
+	            <!-- /.panel -->
+	        </div>
+	        <!-- /.col-sm-12 -->
+	    </div>
+	    <!-- /.row -->
+	</div>
+	<!-- /#page-wrapper -->
+
+</div>
+
+<script th:inline="javascript">
+/*<![CDATA[*/
+<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+$(document).ready(function() {
+	 var table =  $('#dataTables-example').DataTable({
+        responsive: true
+    });
+	 
+	 $('#dataTables-example').on( 'draw.dt', function () {
+   	 $(".money").each(function() {
+       	 $(this).html(parseFloat($(this).attr("data-value")).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})); 
+       })
+   	} );
+    
+    $(".money").each(function() {
+   	 $(this).html(parseFloat($(this).attr("data-value")).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})); 
+   })
+});
+/*]]>*/
+</script>
+
+
+</body>
+</html>

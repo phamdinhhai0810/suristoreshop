@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/layout :: head"></head>
+<body>
+
+<div id="wrapper">
+
+    <nav th:replace="admin/layout :: sidebar"></nav>
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-sm-12">
+                <h3 class="page-header">Quản lý loại sản phẩm</h3>
+            </div>
+            <!-- /.col-sm-12 -->
+        </div>
+        <!-- /.row -->
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-9 col-md-6 col-lg-6 col-sm-offset-1 col-md-offset-3 col-lg-offset-3">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Form loại sản phẩm
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <form action="#" th:action="@{/admin/type/save}" th:object="${type}" method="POST">
+                            <input type="hidden" th:field="*{id}" />
+                            <div class="form-group">
+                                <label>Tên loại sản phẩm <span class="required">*</span></label>
+                                <input type="text" class="form-control" th:field="*{name}" th:errorclass="field-error" />
+                                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></span>
+                            </div>
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Lưu</button>
+                        </form>
+                    </div> 	
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-sm-12 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /#page-wrapper -->
+
+</div>
+
+</body>
+</html>

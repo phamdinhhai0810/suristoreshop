@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/layout :: head"></head>
+<body>
+
+<div id="wrapper">
+
+    <nav th:replace="admin/layout :: sidebar"></nav>
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h3 class="page-header">Dashboard</h3>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+
+        <div class="row">
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-user fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge"><span th:text="${totalUsers}"></span></div>
+                                <div>Khách hàng</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a th:href="@{/admin/customer}">
+                        <div class="panel-footer">
+                            <span class="pull-left">Xem chi tiết</span> <span
+                                class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-green">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-list-alt fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge"><span th:text="${totalCategories}"></span></div>
+                                <div>Danh mục</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a th:href="@{/admin/category}">
+                        <div class="panel-footer">
+                            <span class="pull-left">Xem chi tiết</span> <span
+                                class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-yellow">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-money fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge"><span th:text="${totalProducts}"></span></div>
+                                <div>Sản phẩm</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a th:href="@{/admin/product}">
+                        <div class="panel-footer">
+                            <span class="pull-left">Xem chi tiết</span> <span
+                                class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-red">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-shopping-cart fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge"><span th:text="${totalOrders}"></span></div>
+                                <div>Đơn hàng</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a th:href="@{/admin/order}">
+                        <div class="panel-footer">
+                            <span class="pull-left">Xem chi tiết</span> <span
+                                class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+		
+		<div class=row>
+			 <div class="col-lg-3 col-md-6">
+                <div class="panel panel-violet">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-list-alt fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge"><span th:text="${totalTypes}"></span></div>
+                                <div>Loại</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a th:href="@{/admin/category}">
+                        <div class="panel-footer">
+                            <span class="pull-left">Xem chi tiết</span> <span
+                                class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+		</div>
+		
+        <!-- /.row -->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-bell fa-fw"></i> Đơn hàng mới nhất
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                    	
+                    	<div class="col-lg-12">
+                            <table class="table table-bordered table-hover table-striped" id="dataTables" th:attr="data-value=${newestOrders}"  width="100%" >
+                                <thead>
+                                <tr>
+                                    <th width="10%">STT</th>
+                                    <th width="20%">Khách hàng</th>
+                                    <th width="10%">Số điện thoại</th>
+                                    <th width="30%">Địa chỉ</th>
+                                    <th width="10%">Ngày đặt</th>
+                                    <th width="10%">Tổng giá trị</th>
+                                    <th width="10%">Tùy chọn</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="order,inter : ${newestOrders}">
+                                	<td th:text="${inter.count}"></td>
+                                    <td th:text="${order.customer.name}"></td>
+                                    <td th:text="${order.customer.phone}"></td>
+                                    <td th:text="${order.customer.address}"></td>
+                                    <td th:text="${#dates.format(order.createdAt, 'dd/MM/yyyy HH:mm')}"></td>
+                                    <td class="money" th:attr="data-value=${order.totalPrice}" th:text="${order.totalPrice}"></td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button class="btn btn-danger btn-sm dropdown-toggle"
+                                                    data-toggle="dropdown">
+                                                Tùy chọn
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                                <li>
+                                                    <a th:href="@{/admin/order/{id}(id=${order.id})}">
+                                                        Xem đơn hàng
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a th:href="@{/admin/dashboard/order/{id}/delete(id=${order.id})}">
+                                                        Xóa đơn hàng
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                      	</div>
+                        <!-- /.table-responsive -->
+                       
+                    </div>
+                  
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-8 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /#page-wrapper -->
+
+</div>
+
+<script th:inline="javascript" type="text/javascript">
+$(document).ready(function() {
+	 var table =  $('#dataTables').DataTable({
+        responsive: true
+    });
+	 console.log($('#dataTables').attr('data-value'))
+	 $('#dataTables').on( 'draw.dt', function () {
+    	 $(".money").each(function() {
+        	 $(this).html(parseFloat($(this).attr("data-value")).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})); 
+        })
+    	} );
+     
+     $(".money").each(function() {
+    	 $(this).html(parseFloat($(this).attr("data-value")).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})); 
+    })
+});
+</script>
+
+</body>
+</html>
