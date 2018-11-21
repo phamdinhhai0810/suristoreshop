@@ -52,7 +52,7 @@ public class SpringShopAdminApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		// initRole();
-		// initUser();
+		 initRole();
+		 initUser();
 	}
 }
