@@ -106,7 +106,12 @@
 					<li>
 						<a th:href="@{/admin/statistic}">
 							<i class="fa fa-bar-chart-o fa-fw"></i> Thống kê
+							<span class="fa arrow"></span>
 						</a>
+						<ul class="nav nav-second-level collapse">
+							<li><a th:href="@{/admin/statistic/day}">Thống kê theo ngày</a></li>
+							<li><a th:href="@{/admin/statistic/month}">Thêm khách theo tháng</a></li>
+						</ul>
 					</li>
 					<li>
 						<a th:href="@{/admin/customer}">
