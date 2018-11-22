@@ -1,6 +1,5 @@
 package com.suristore.shop.service.impl;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,9 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.suristore.shop.domain.Customer;
 import com.suristore.shop.domain.ItemOrder;
 import com.suristore.shop.domain.Order;
-import com.suristore.shop.domain.OrderStatisticMonthTotalPriceClass;
 import com.suristore.shop.domain.Product;
-import com.suristore.shop.domain.custom.OrderStatisticMonthTotalPrice;
 import com.suristore.shop.domain.requestvo.OrderRequestVO;
 import com.suristore.shop.domain.requestvo.ProductOrderRequestVO;
 import com.suristore.shop.repo.CustomerRepository;
@@ -141,21 +138,6 @@ public class OrderServiceImpl implements OrderService {
 	public Iterable<Order> findByCustomerId(int idCustomer) {
 
 		return orderRepository.findByCustomerId(idCustomer);
-	}
-
-	@Override
-	public List<OrderStatisticMonthTotalPriceClass> getOrderStatisticMonthTotalPrice() {
-
-		List<OrderStatisticMonthTotalPriceClass> listClass = new ArrayList<>();
-
-		List<OrderStatisticMonthTotalPrice> listInterface = orderRepository.OrderStatisticMonthTotalPrice();
-		if (listInterface != null && listInterface.size() > 0) {
-			for (OrderStatisticMonthTotalPrice item : listInterface) {
-				listClass.add(new OrderStatisticMonthTotalPriceClass(item.getYear(),item.getMonth(),item.getTotalPrice()));	
-			}
-		}
-
-		return listClass;
 	}
 
 }
