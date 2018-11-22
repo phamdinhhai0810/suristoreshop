@@ -12,10 +12,20 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 
 	Iterable<Order> findByCustomerId(int idCustomer);
 
-	@Query(nativeQuery = true, value = " SELECT YEAR(created_at) as year , MONTH(created_at) as month , SUM(total_price) as totalPrice "
+	@Query(nativeQuery = true, value = " SELECT created_at as datadate , SUM(total_price) as totalPrice "
 										 + " FROM orders "
 										 + " GROUP BY YEAR(created_at), MONTH(created_at) "
-										 + " ORDER BY year DESC, year DESC "
+										 + " ORDER BY YEAR(created_at) DESC, MONTH(created_at) DESC "
 										 + " LIMIT 12 ")
-	List<OrderStatisticMonthTotalPrice> OrderStatisticMonthTotalPrice();
+	List<StatisticTotalPriceInterface> statisticMonthTotalPrice();
+
+
+	@Query(nativeQuery = true,value =  " SELECT created_at as datadate, SUM(total_price) as totalPrice "
+			                         + " FROM orders "
+								     + " WHERE MONTH(created_at) = MONTH(CURRENT_DATE()) "
+									 + " AND YEAR(created_at) = YEAR(CURRENT_DATE()) "
+									 + " GROUP BY  DAY(created_at) "
+									 + " ORDER BY  DAY(created_at) DESC")
+	List<StatisticTotalPriceInterface> statisticDayTotalPrice();
+}
 }
