@@ -1,11 +1,8 @@
 package com.suristore.shop.service;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 
 import com.suristore.shop.domain.Order;
-import com.suristore.shop.domain.OrderStatisticMonthTotalPriceClass;
 import com.suristore.shop.domain.requestvo.OrderRequestVO;
 
 public interface OrderService {
@@ -26,5 +23,4 @@ public interface OrderService {
 
 	Iterable<Order> findByCustomerId(int idCustomer);
 
-	List<OrderStatisticMonthTotalPriceClass> getOrderStatisticMonthTotalPrice();
 }
