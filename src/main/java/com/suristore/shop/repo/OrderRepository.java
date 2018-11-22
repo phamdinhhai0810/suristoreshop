@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.suristore.shop.domain.Order;
-import com.suristore.shop.domain.custom.OrderStatisticMonthTotalPrice;
+import com.suristore.shop.domain.custom.StatisticTotalPriceInterface;
 
 public interface OrderRepository extends JpaRepository<Order, Integer> {
 
@@ -27,5 +27,4 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 									 + " GROUP BY  DAY(created_at) "
 									 + " ORDER BY  DAY(created_at) DESC")
 	List<StatisticTotalPriceInterface> statisticDayTotalPrice();
-}
 }
