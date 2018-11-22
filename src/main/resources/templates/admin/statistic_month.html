@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/layout :: head"></head>
+<body>
+
+<div id="wrapper">
+
+	<nav th:replace="admin/layout :: sidebar"></nav>
+
+	<div id="page-wrapper">
+			  <div class="row">
+	            <div class="col-lg-12">
+	                <h3 class="page-header">Thống kê thu - chi theo tháng </h3>
+	            </div>
+	            <!-- /.col-lg-12 -->
+	        </div>
+
+			<div class"row">
+				  <div  class="col-sm-12 text-center" style="margin-bottom: 80px" >
+				  	   <input type="hidden" th:attr="data-value=${profit_month}" id="chartline-thu-chi-month" />
+				       <label class="label label-success">Thống kê lãi 12 tháng gần nhất</label>
+				       <div id="line-chart-month" ></div>
+				  </div>
+			  </div>
+
+			 <div class"row">
+				  <div  class="col-sm-12 text-center" style="margin-bottom: 80px" >
+				  	  <input type="hidden" th:attr="data-value=${totalprice_month}" id="chart-thu-chi-month" />
+				       <label class="label label-success">Thống kê thu - chi 12 tháng gần nhất</label>
+				       <div id="bar-chart-month" ></div>
+				  </div>
+			  </div>
+	</div>
+	<!-- /#page-wrapper -->
+
+</div>
+
+<script type="text/javascript" th:inline="javascript">
+
+var totalprice = JSON.parse($("#chart-thu-chi-month").attr("data-value"));
+var profit = JSON.parse($("#chartline-thu-chi-month").attr("data-value"));
+
+initChartBarThuChiTheoThang();
+initChartLineThuChiTheoThang();
+
+function initChartBarThuChiTheoThang(){
+	let config = {
+	            data: totalprice,
+	            xkey: 'monthYear',
+	            ykeys: ['tongThu', 'tongChi'],
+	            labels: ['Tổng thu', 'Tổng chi'],
+	            fillOpacity: 0.6,
+	            hideHover: 'auto',
+	            behaveLikeLine: true,
+	            resize: true,
+	            pointFillColors:['#ffffff'],
+	            pointStrokeColors: ['black'],
+	            lineColors:['gray','red']
+	        };
+
+	      config.element = 'bar-chart-month';
+	      Morris.Bar(config);
+}
+
+function initChartLineThuChiTheoThang(){
+	let config ={
+			  // ID of the element in which to draw the chart.
+			  element: 'line-chart-month',
+			  // Chart data records -- each entry in this array corresponds to a point on
+			  // the chart.
+			  data: profit,
+			  // The name of the data record attribute that contains x-values.
+			  xkey: 'monthYear',
+			  // A list of names of data record attributes that contain y-values.
+			  ykeys: ['lai'],
+			  // Labels for the ykeys -- will be displayed when you hover over the
+			  // chart.
+			  labels: ['Lãi']
+			}
+	new Morris.Line(config);
+}
+
+
+
+</script>
+</body>
+</html>
