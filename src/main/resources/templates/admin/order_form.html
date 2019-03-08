@@ -369,7 +369,8 @@
 		         	 }
 
 		         	 tongsotienhang = tongsotienhang + soluong * giasp;
-		         	 $("#totalMoney").text(tongsotienhang);
+					 let tt = tongtien = parseFloat(tongsotienhang).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})
+		         	 $("#totalMoney").text(tt);
 
 				 }
 			 }
