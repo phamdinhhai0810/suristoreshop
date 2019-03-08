@@ -244,6 +244,9 @@
 			  $('#tableProducts').on( 'click', '.btnXoa', function () {		
 				  $(this).parent().parent().addClass('selected');
 				   tableProducts.rows( '.selected' ).remove().draw();
+				  
+				   // tinh tong tien hang
+			         tinhTongTienHang();
 		     });
 			 
 			
