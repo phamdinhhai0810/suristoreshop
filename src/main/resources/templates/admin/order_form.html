@@ -356,29 +356,28 @@
 		  });
 
 		   function tinhTongTienHang(){
-		     tongsotienhang = 0;
+			     tongsotienhang = 0;
 
-		     if($('#tableProducts').DataTable().rows().count() > 0){
-				 let dataTable = $('#tableProducts').DataTable().rows().data();
-				 for(let i = 0; i< $('#tableProducts').DataTable().rows().count(); i++){
-					 let soluong = dataTable[i][10];
-					 if(soluong <=0){
-		         		soluong = 0;
-		         	 }
+			     if($('#tableProducts').DataTable().rows().count() > 0){
+					 let dataTable = $('#tableProducts').DataTable().rows().data();
+					 for(let i = 0; i< $('#tableProducts').DataTable().rows().count(); i++){
+						 let soluong = dataTable[i][10];
+						 if(soluong <=0){
+						soluong = 0;
+					 }
 
-		         	 let giasp = dataTable[i][9];
-		         	 if(giasp <=0){
-		         		giasp = 0;
-		         	 }
+					 let giasp = dataTable[i][9];
+					 if(giasp <=0){
+						giasp = 0;
+					 }
 
-		         	 tongsotienhang = tongsotienhang + soluong * giasp;
-					 let tt = tongtien = parseFloat(tongsotienhang).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})
-		         	 $("#totalMoney").text(tt);
+					 tongsotienhang = tongsotienhang + soluong * giasp;
 
+					 }
 				 }
-			 }
-
-		   }
+				let tt = tongtien = parseFloat(tongsotienhang).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})
+				 $("#totalMoney").text(tt);
+			   }
 
 		  // valid input số lượng
 		  function validInputSoLuong(){
