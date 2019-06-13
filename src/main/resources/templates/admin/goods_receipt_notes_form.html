@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="admin/layout :: head">
 
@@ -123,7 +123,7 @@
 															<li class="item-dropdown"
 																th:each="product,iter : ${products}"
 																th:attr="data-value=${product}" style="padding: 10px;cursor: pointer;">
-																<span th:text="${product.name}" th:remove="tag"></span>
+																<span th:text="${product.name} + ' ( kho còn: ' + ${product.total - product.totalSold} + ' - đã bán: '+  ${product.totalSold} +' - tổng: ' + ${product.total} +' ) - giá bán dự kiến : ' +  ${product.price} "  th:remove="tag"></span>
 															</li>
 
 														</ul>
@@ -198,7 +198,7 @@
 									<i class="fa fa-save"></i> Lưu
 								</button>
 							</form>
-						</div>
+								</div>
 						<!-- /.panel-body -->
 					</div>
 					<!-- /.panel -->
@@ -237,21 +237,17 @@
 					
 				});
 			 
-
 			 //format money
 			  $("#totalPriceProduct").val(parseFloat($("#totalPriceProduct").attr("data-value")).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})); 
-
 			  // thay doi so luong
 			  $("#slProduct").on("change",function() {
 				  let soluong = parseInt($(this).val());
 				  $(this).val(soluong);
 				  
 				  let gia = parseInt($("#priceProduct").val());
-
 				  $("#totalPriceProduct").attr("data-value",gia*soluong);
 				  $("#totalPriceProduct").val(parseFloat($("#totalPriceProduct").attr("data-value")).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})); 
 			  });
-
 			  // thay doi gia san pham
 			  $("#priceProduct").on("change",function() {
 				  let gia = parseInt($(this).val());
@@ -262,7 +258,6 @@
 				  $("#totalPriceProduct").attr("data-value",gia*soluong);
 				  $("#totalPriceProduct").val(parseFloat($("#totalPriceProduct").attr("data-value")).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})); 
 			  });
-
 			  ///////////////////////// customers
 			  
 			  // tìm kiếm tên khách hàng
@@ -274,10 +269,8 @@
 			  
 			  // click dropdown khách hàng
 			  $("#dropdown-menu-customer li").click(function() {
-
 					let item = JSON.parse($(this).attr("data-value"));
 					//console.log(item);
-
 					$('#idCustomer').val(item.Customer.id);
 					$('#nameCustomer').val(item.Customer.name);
 					$('#phoneCustomer').val(item.Customer.phone);
@@ -303,18 +296,12 @@
 			    }
 			}); 
 		  
-
 		 $("#formOrder").submit(function (event) {
-
 		        //stop submit the form, we will post it manually.
 		        event.preventDefault();
-
 		        saveOrder();
-
 		    });
-
 		  function saveOrder() {
-
 			  if( $("#idCustomer").val() && $("#nameCustomer").val() && $("#phoneCustomer").val() && $("#addressCustomer").val()){
 				  
 				  if( $("#idProduct").val() && $("#nameProduct").val() ){
