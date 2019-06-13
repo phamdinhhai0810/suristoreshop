@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/layout :: head">
+
+<style>
+/* Style the input field */
+#myInput {
+	padding: 20px;
+	margin-top: -6px;
+	border: 0;
+	border-radius: 0;
+	background: #f1f1f1;
+}
+</style>
+
+</head>
+
+<body>
+
+	<div id="wrapper">
+
+		<nav th:replace="admin/layout :: sidebar"></nav>
+
+		<div id="page-wrapper">
+			<div class="row">
+				<div class="col-sm-12">
+					<h3 class="page-header">Quản lý đơn hàng</h3>
+				</div>
+				<!-- /.col-sm-12 -->
+			</div>
+			<!-- /.row -->
+
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="panel panel-primary">
+						<div class="panel-heading">Form đơn hàng</div>
+						<!-- /.panel-heading -->
+						<div class="panel-body">
+							<form id= "formOrder">
+								<div class="form-group">
+
+									<div class="dropdown">
+										<button class="btn btn-primary dropdown-toggle" type="button"
+											data-toggle="dropdown">
+											Tìm khách hàng <span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" id="dropdown-menu-customer"
+											style="max-height: 400px; overflow: auto;">
+											<input class="form-control" id="myInputSearchCustomer" type="text"
+												placeholder="Tìm theo tên, sđt khách hàng...">
+											<li class="item-dropdown"
+												th:each="customer,iter : ${customers}"
+												th:attr="data-value=${customer}" style="padding: 10px; cursor:pointer">
+												<span th:text="${customer.name} +' - '+ ${customer.phone} +' - '+ ${customer.address}" th:remove="tag"></span>
+											</li>
+
+										</ul>
+
+									</div>
+
+								</div>
+
+								<div class="row">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<input
+												type="hidden" class="form-control" id="idCustomer" style="color: green;"/> 
+												
+											<label>Họ tên<span class="required">*</span></label> 
+											<input readonly
+												type="text" class="form-control" id="nameCustomer" style="color: green;"/> 
+												
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label>Số điện thoại<span class="required">*</span></label> <input   readonly
+												type="text" class="form-control"  id="phoneCustomer" style="color: green;"/>
+												
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label>Địa chỉ <span class="required">*</span></label>
+											<textarea  style="color: green;" readonly
+												id="addressCustomer" class="form-control" rows="2"></textarea>
+											
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label>Ghi chú </label>
+											<textarea
+												id="noteCustomer" class="form-control" rows="2"></textarea>
+											
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												<i class="fa fa-bell fa-fw"></i> Thêm sản phẩm
+											</div>
+											<!-- /.panel-heading -->
+											<div class="panel-body">
+
+												<div class="form-group">
+
+													<div class="dropdown">
+														<button class="btn btn-primary dropdown-toggle"
+															type="button" data-toggle="dropdown">
+															Thêm sản phẩm <span class="caret"></span>
+														</button>
+														<ul class="dropdown-menu" id="dropdown-menu-product"
+															style="max-height: 400px; overflow: auto;">
+															<input class="form-control" id="myInputSearch"
+																type="text" placeholder="Tìm tên sản phẩm...">
+															<li class="item-dropdown"
+																th:each="product,iter : ${products}"
+																th:attr="data-value=${product}" style="padding: 10px;cursor: pointer;">
+																<span th:text="${product.name} + ' ( kho còn: ' + ${product.total - product.totalSold} + ' - đã bán: '+  ${product.totalSold} +' - tổng: ' + ${product.total} +' ) - giá bán dự kiến : ' +  ${product.price} "  th:remove="tag"></span>
+															</li>
+
+														</ul>
+
+													</div>
+
+												</div>
+
+													<table class="table table-bordered table-hover table-striped" width="100%" id="tableProducts">
+															<thead>
+																<tr>
+																	<th width="10%">STT</th>
+																	<th width="30%">Sản phẩm</th>
+																	<th width="10%">Giá</th>
+																	<th width="10%">Loại</th>
+																	<th width="10%">Danh mục</th>
+																	<th width="10%">Số lượng</th>
+																	<th width="10%">Thành tiền</th>
+																	<th width="10%">Tùy chọn</th>
+																	<th width="10%">Mã Hidden</th>
+																	<th width="10%">Giá Hidden</th>
+																	<th width="10%">SL Hidden</th>
+																</tr>
+															</thead>
+															
+														</table>	
+												
+												<!-- /.table-responsive -->
+
+												<div class="row">
+													<div class="form-group" style=" float: right; margin-right: 170px;">
+														<label style="margin-right: 20px;">Tổng tiền: </label>
+														<span id="totalMoney" total-money="0"  >0</span>
+														<input id="inputTotalMoney" type="hidden" class="form-control"  /> 
+													</div>
+												</div>
+
+											</div>
+											<!-- /.panel-body -->
+										</div>
+										<!-- /.panel -->
+									</div>
+									<!-- /.col-lg-8 -->
+								</div>
+
+								<button type="submit" class="btn btn-primary" id="submitOrder">
+									<i class="fa fa-save"></i> Lưu
+								</button>
+							</form>
+						</div>
+						<!-- /.panel-body -->
+					</div>
+					<!-- /.panel -->
+				</div>
+				<!-- /.col-sm-12 -->
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- /#page-wrapper -->
+
+	</div>
+	
+	<script th:inline="javascript" type="text/javascript">
+		
+		  $(document).ready(function(){
+			  
+			  var tableProducts = $('#tableProducts').DataTable({
+			         responsive: true
+			     });
+
+			  tableProducts.columns([8,9,10]).visible(false);
+				  
+			  // tim kiếm sản phẩm button
+			  $("#myInputSearch").on("keyup",function() {
+					let value = $(this).val().toLowerCase();
+					
+					$("#dropdown-menu-product li").filter(function() {
+						$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)});
+						});
+			 
+		
+			 // drop down danh sách sản phẩm
+			  $("#dropdown-menu-product li").click(function() {
+				  	let data = $(this).attr("data-value");
+				  	//console.log(data);
+					let item = JSON.parse(data);
+					
+					if(!checkItemExitsInTable(item.id)){
+						
+						let tongtien = parseFloat( 0).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})
+					
+						tableProducts.row.add([
+						              tableProducts.rows().count() + 1,
+						              item.name,
