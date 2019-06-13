@@ -123,7 +123,7 @@
 															<li class="item-dropdown"
 																th:each="product,iter : ${products}"
 																th:attr="data-value=${product}" style="padding: 10px;cursor: pointer;">
-																<span th:text="${product.name}" th:remove="tag"></span>
+																<span th:text="${product.name} + ' ( kho còn: ' + ${product.total - product.totalSold} + ' - đã bán: '+  ${product.totalSold} +' - tổng: ' + ${product.total} +' ) - giá bán dự kiến : ' +  ${product.price} "  th:remove="tag"></span>
 															</li>
 
 														</ul>
@@ -193,9 +193,6 @@
 			  var tableProducts = $('#tableProducts').DataTable({
 			         responsive: true
 			     });
-
-			  let tongsotienhang = 0;
-
 			  tableProducts.columns([8,9,10]).visible(false);
 				  
 			  // tim kiếm sản phẩm button
@@ -220,7 +217,7 @@
 						tableProducts.row.add([
 						              tableProducts.rows().count() + 1,
 						              item.name,
-						              `<input type="number" step="1" pattern="\d+" min="0" max="1000000000" placeholder="0" class="form-control inputPrice" value="${item.price}"/>`,
+										              `<input type="number" step="1" pattern="\d+" min="0" max="1000000000" placeholder="0" class="form-control inputPrice" value="${item.price}"/>`,
 						              item.type.name,
 						              item.category.name,
 						              `<input type="number" step="1" pattern="\d+" min="0" max="1000000000" placeholder="0" class="form-control inputSl" value="0"/>`,
@@ -244,14 +241,11 @@
 			  $('#tableProducts').on( 'click', '.btnXoa', function () {		
 				  $(this).parent().parent().addClass('selected');
 				   tableProducts.rows( '.selected' ).remove().draw();
-				  
-				   // tinh tong tien hang
-			         tinhTongTienHang();
 		     });
 			 
 			
 			 // change Sl sản phẩm
-			 $('#tableProducts').on( 'change', 'input.inputSl', function () {		
+			 $('#tableProducts').on( 'change', 'input.inputSl', function () {		 
 				
 				//console.log(tableProducts.rows().data());
 				
@@ -284,9 +278,7 @@
 				        .row( rowIndex )
 			            .data(rData)
 			            .draw();	
-
-                    // tinh tong tien hang
-                    tinhTongTienHang()
+            
 				    
 		    }); 
 			 
@@ -323,11 +315,7 @@
 				    tableProducts
 				        .row( rowIndex )
 			            .data(rData)
-			            .draw();
-
-
-			          // tinh tong tien hang
-			         tinhTongTienHang();
+			            .draw();	
 				    
 		    }); 
 			 
@@ -354,31 +342,7 @@
 					
 				});  
 		  });
-
-		   function tinhTongTienHang(){
-			     tongsotienhang = 0;
-
-			     if($('#tableProducts').DataTable().rows().count() > 0){
-					 let dataTable = $('#tableProducts').DataTable().rows().data();
-					 for(let i = 0; i< $('#tableProducts').DataTable().rows().count(); i++){
-						 let soluong = dataTable[i][10];
-						 if(soluong <=0){
-						soluong = 0;
-					 }
-
-					 let giasp = dataTable[i][9];
-					 if(giasp <=0){
-						giasp = 0;
-					 }
-
-					 tongsotienhang = tongsotienhang + soluong * giasp;
-
-					 }
-				 }
-				let tt = tongtien = parseFloat(tongsotienhang).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})
-				 $("#totalMoney").text(tt);
-			   }
-
+		
 		  // valid input số lượng
 		  function validInputSoLuong(){
 			 /* $(".inputSl").on("keypress keyup",function (event) {    
