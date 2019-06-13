@@ -3,6 +3,7 @@ package com.suristore.shop.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.suristore.shop.domain.Customer;
@@ -18,7 +19,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public Iterable<Customer> findAll() {
-		return customerRepository.findAll();
+		return customerRepository.findAll(new Sort(Sort.Direction.DESC, "createdAt"));
 	}
 
 	@Override
