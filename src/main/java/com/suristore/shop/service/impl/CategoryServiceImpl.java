@@ -1,6 +1,7 @@
 package com.suristore.shop.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +18,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	@Transactional(readOnly = true)
 	public Iterable<Category> findAll() {
-		return categoryRepository.findAll();
+		return categoryRepository.findAll(new Sort(Sort.Direction.DESC, "createdAt"));
 	}
 
 	@Override
