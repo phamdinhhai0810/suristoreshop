@@ -17,7 +17,7 @@ import javax.persistence.Transient;
 @Table(name = "item_order")
 @AssociationOverrides({ @AssociationOverride(name = "pk.order", joinColumns = @JoinColumn(name = "order_id")),
 		@AssociationOverride(name = "pk.product", joinColumns = @JoinColumn(name = "product_id")), })
-public class ItemOrder implements Serializable {
+public class ItemOrder extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
