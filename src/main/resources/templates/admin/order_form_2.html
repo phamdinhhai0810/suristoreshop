@@ -1,0 +1,221 @@
+						              `<input type="number" step="1" pattern="\d+" min="0" max="1000000000" placeholder="0" class="form-control inputPrice" value="${item.price}"/>`,
+						              item.type.name,
+						              item.category.name,
+						              `<input type="number" step="1" pattern="\d+" min="0" max="1000000000" placeholder="0" class="form-control inputSl" value="0"/>`,
+						              tongtien,				             
+						              `<a class= "btnXoa" style="text-decoration: underline;cursor: pointer;"> Xóa </a>`,
+						              item.id,  // id hidden
+						              item.price, // price hidden
+						              0, // sl hidden
+						]).draw();  
+
+					}
+					
+				});
+			 
+			  /* // xóa 1 row sản phẩm
+			 tableProducts.on('click', "a.btnXoa", function(e) {
+				  tableProducts.row( $(this).closest('tr') ).remove().draw();
+		        });*/
+			
+			   // xóa 1 row sản phẩm
+			  $('#tableProducts').on( 'click', '.btnXoa', function () {		
+				  $(this).parent().parent().addClass('selected');
+				   tableProducts.rows( '.selected' ).remove().draw();
+		     });
+			 
+			
+			 // change Sl sản phẩm
+			 $('#tableProducts').on( 'change', 'input.inputSl', function () {		 
+				
+				//console.log(tableProducts.rows().data());
+				
+		            // get object data in row
+		            let tableRow = tableProducts.row($(this).closest('tr'));
+		            let rowIndex = tableRow.index();
+		         // get so luong in inputsl
+		            let soluong = parseInt($(this).val());
+		         	if(soluong <=0)
+		         		soluong = 0;
+		            $(this).val(soluong);
+		            
+		            let tongtien = parseFloat( soluong * tableRow.data()[9]).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})
+		            
+				    let rData = [ 
+				        tableRow.data()[0], // stt
+				        tableRow.data()[1], // name
+				        tableRow.data()[2], // price
+				        tableRow.data()[3], //type
+				        tableRow.data()[4], // category
+				        `<input type="number" step="1" pattern="\d+" min="0" max="1000000000" placeholder="0" class="form-control inputSl" value=${soluong} />`, 
+						tongtien, // thanh tien
+						`<a class= "btnXoa" style="text-decoration: underline;cursor: pointer;"> Xóa </a>`,
+						tableRow.data()[8], //id hidden
+						tableRow.data()[9], //price hidden
+						soluong, // Sl Hidden
+				    ];
+				        
+				    tableProducts
+				        .row( rowIndex )
+			            .data(rData)
+			            .draw();	
+            
+				    
+		    }); 
+			 
+			 // change giá sản phẩm
+			 $('#tableProducts').on( 'change', 'input.inputPrice', function () {		
+				
+				//console.log(tableProducts.rows().data());
+				
+		            // get object data in row
+		            let tableRow = tableProducts.row($(this).closest('tr'));
+		            let rowIndex = tableRow.index();
+		         // get so luong in inputsl
+		            let gia = parseInt($(this).val());
+		         	if(gia <= 0)
+		         		gia = 0;
+		            $(this).val(gia);
+		            
+		            let tongtien = parseFloat( gia * tableRow.data()[10]).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})
+		            
+				    let rData = [ 
+				        tableRow.data()[0], // stt
+				        tableRow.data()[1], // name
+				        `<input type="number" step="1" pattern="\d+" min="0" max="1000000000" placeholder="0" class="form-control inputPrice" value=${gia} />`,  // price
+				        tableRow.data()[3], //type
+				        tableRow.data()[4], // category
+				        tableRow.data()[5],
+				        tongtien, // thanh tien
+						`<a class= "btnXoa" style="text-decoration: underline;cursor: pointer;"> Xóa </a>`,
+						tableRow.data()[8], //id hidden
+						gia, //price hidden
+						tableRow.data()[10] // Sl Hidden
+				    ];
+				        
+				    tableProducts
+				        .row( rowIndex )
+			            .data(rData)
+			            .draw();	
+				    
+		    }); 
+			 
+
+			  ///////////////////////// customers
+			  
+			  // tìm kiếm tên khách hàng
+			  $("#myInputSearchCustomer").on("keyup",function() {
+					let value = $(this).val().toLowerCase();
+					$("#dropdown-menu-customer li").filter(function() {
+						$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)});
+			  });
+			  
+			  // click dropdown khách hàng
+			  $("#dropdown-menu-customer li").click(function() {
+
+					let item = JSON.parse($(this).attr("data-value"));
+					//console.log(item);
+
+					$('#idCustomer').val(item.Customer.id);
+					$('#nameCustomer').val(item.Customer.name);
+					$('#phoneCustomer').val(item.Customer.phone);
+					$('#addressCustomer').val(item.Customer.address);
+					
+				});  
+		  });
+		
+		  // valid input số lượng
+		  function validInputSoLuong(){
+			 /* $(".inputSl").on("keypress keyup",function (event) {    
+		           $(this).val($(this).val().replace(/[^\d].+/, ""));
+		            if ((event.which < 48 || event.which > 57)) {
+		                event.preventDefault();
+		            }
+		        }); */
+		  }
+		  
+		  //backspace for input
+		  $('.inputSl').keydown(function(e) {
+			    if ((e.which == 8 || e.which == 46) && $(this).val() =='') {
+			        $(this).prev('input').focus();
+			    }
+			}); 
+		  
+		  
+		 $("#formOrder").submit(function (event) {
+
+		        //stop submit the form, we will post it manually.
+		        event.preventDefault();
+
+		        saveOrder();
+
+		    });
+		 
+		 // check item exits in table
+		 //true ==> exits, false -> not exits
+		 function checkItemExitsInTable(id){
+			 if($('#tableProducts').DataTable().rows().count() > 0){
+				 let dataTable = $('#tableProducts').DataTable().rows().data();
+				 for(let i = 0; i< $('#tableProducts').DataTable().rows().count(); i++){
+					 let idInTable = dataTable[i][8];
+					 if(idInTable == id)
+						 return true;
+				 }
+			 }
+			 
+			 return false;
+			 
+		 }
+
+		  function saveOrder() {
+
+				if($("#idCustomer").val() && $("#nameCustomer").val() && $("#phoneCustomer").val() && $("#addressCustomer").val()){
+				    let dataTable = $('#tableProducts').DataTable().rows().data();
+					//console.log(dataTable);
+					let listProduct = [];
+					if($('#tableProducts').DataTable().rows().count() > 0){
+						for(let i = 0; i< $('#tableProducts').DataTable().rows().count(); i++){
+							//console.log(dataTable[i][2]);
+							listProduct.push({
+								"id_product":dataTable[i][8],
+								"soldPrice":dataTable[i][9],
+								"quantity":dataTable[i][10]
+							});
+						}
+					
+					  	let data={
+					  			idCustomer:$("#idCustomer").val(),
+								note : $("#noteCustomer").val(),
+								listProduct:listProduct
+					  		};
+						
+						$.ajax({
+							type : "POST",
+							contentType : "application/json",
+							url : "/admin/order/save",
+							data :JSON.stringify(data),
+							timeout : 100000,
+							success : function(data) {
+								console.log("SUCCESS: ", data);
+								document.location.href="/admin/order";
+							},
+							 error: function(xhr, status, error) {
+								 console.log("ERROR: ", error);
+								 alert("Lỗi " + error);
+								 }
+						}); 
+					}else{
+						alert("Hãy chọn sản phẩm !");
+					}
+				}else{
+					alert("Hãy chọn thông tin khách hàng !");
+				}
+			  
+			}
+		  
+	
+	</script>
+
+</body>
+
+</html>
