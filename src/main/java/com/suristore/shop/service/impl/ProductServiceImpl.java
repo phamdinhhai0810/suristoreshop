@@ -71,11 +71,7 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public Product save(Product product) {
 
-
-        Product p = new Product();
-        BeanUtils.copyProperties(product, p,"total","totalSold","id");
-
-        return productRepository.save(p);
+        return productRepository.save(product);
     }
 
     @Override
