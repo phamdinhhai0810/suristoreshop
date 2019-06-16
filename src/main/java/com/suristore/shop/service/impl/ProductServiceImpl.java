@@ -4,6 +4,7 @@ import com.suristore.shop.domain.Product;
 import com.suristore.shop.repo.ProductRepository;
 import com.suristore.shop.service.ProductService;
 import com.suristore.shop.utils.Const;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -69,7 +70,12 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public Product save(Product product) {
-        return productRepository.save(product);
+
+
+        Product p = new Product();
+        BeanUtils.copyProperties(product, p,"total","totalSold","id");
+
+        return productRepository.save(p);
     }
 
     @Override

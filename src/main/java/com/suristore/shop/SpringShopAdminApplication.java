@@ -31,28 +31,34 @@ public class SpringShopAdminApplication implements CommandLineRunner {
 
 	private void initRole() {
 
-		Role role = new Role();
-		role.setName("ROLE_ADMIN");
-		roleRepository.save(role);
+		Role check = roleRepository.findByName("ROLE_ADMIN");
+		if(check == null){
+			Role role = new Role();
+			role.setName("ROLE_ADMIN");
+			roleRepository.save(role);
+		}
 	}
 
 	private void initUser() {
 
-		Role role = roleRepository.findByName("ROLE_ADMIN");
-		Set<Role> roles = new HashSet<>();
-		roles.add(role);
+		User check = userRepository.findByEmail("admin@gmail.com");
+		if(check == null){
+			Role role = roleRepository.findByName("ROLE_ADMIN");
+			Set<Role> roles = new HashSet<>();
+			roles.add(role);
 
-		User user = new User();
-		user.setEmail("admin@gmail.com");
-		user.setName("admin");
-		user.setPassword("$2a$10$Fd/rhPgkG6XbufIneTSMxeRFLCwl3OShb5J7woRqTIuepHTwK7XXO");
-		user.setRoles(roles);
-		userRepository.save(user);
+			User user = new User();
+			user.setEmail("admin@gmail.com");
+			user.setName("admin");
+			user.setPassword("$2a$10$Fd/rhPgkG6XbufIneTSMxeRFLCwl3OShb5J7woRqTIuepHTwK7XXO");
+			user.setRoles(roles);
+			userRepository.save(user);
+		}
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
-		 //initRole();
-		 //initUser();
+		 initRole();
+		 initUser();
 	}
 }
